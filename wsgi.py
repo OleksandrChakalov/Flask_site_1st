@@ -1,13 +1,15 @@
 from flask import Flask, render_template
+from utils.view_modifiers import response
 
 app = Flask(__name__)
+
 
 def get_films():
     return [
         {
-            'id' : 1,
-            'title' : 'Forsage 1',
-            'release_day' : '2001'
+            'id': 1,
+            'title': 'Forsage 1',
+            'release_day': '2001'
         },
         {
             'id': 2,
@@ -16,15 +18,19 @@ def get_films():
         }
     ]
 
+
 @app.route('/')
+@response(template_file='hello.html')
 def index():
     films = get_films()
-    return render_template('hello.html', films = films)
+    return {'films': films}
 
 
 @app.route('/about')
+@response(template_file='about.html')
 def about():
-    return render_template('about.html')
+    # return render_template('about.html', title='About')
+    return {'title': 'About'}
 
 
 @app.route('/<string:name>')
